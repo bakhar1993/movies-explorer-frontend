@@ -15,7 +15,16 @@ function Header({ loggedIn }) {
 
   return (
     <header
-      className={`header ${(location.pathname === "/" && "header_type_home") || (!loggedIn && location.pathname !== "/" && "header_type_none")}`}
+      // className={`header ${(location.pathname === "/" && "header_type_home") || (!loggedIn && location.pathname !== "/" && "header_type_none")}`}
+      className={`header ${
+        (location.pathname === "/" && "header_type_home") ||
+        (location.pathname !== "/" &&
+        location.pathname !== "/movies" &&
+        location.pathname !== "/saved-movies" &&
+        location.pathname !== "/profile"
+          ? "header_type_none"
+          : "")
+      }`}
     >
       <div className="header__container">
         <Link to={"/"} className="header__logo-link link">
@@ -24,10 +33,16 @@ function Header({ loggedIn }) {
 
         {!loggedIn && (
           <div className="header__auth">
-            <Link className="header__link header__link-signup link" to={"/signup"}>
+            <Link
+              className="header__link header__link-signup link"
+              to={"/signup"}
+            >
               Регистрация
             </Link>
-            <Link className="header__link header__link-signin link" to={"/signin"}>
+            <Link
+              className="header__link header__link-signin link"
+              to={"/signin"}
+            >
               Войти
             </Link>
           </div>

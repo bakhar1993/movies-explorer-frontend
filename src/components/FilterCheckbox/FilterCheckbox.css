@@ -8,6 +8,7 @@
 
 .filter-checkbox__switch {
   position: relative;
+  cursor: pointer;
 }
 
 .filter-checkbox__input {

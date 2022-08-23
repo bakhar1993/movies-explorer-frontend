@@ -97,6 +97,11 @@
   /* margin: 99px 0 0; */
 }
 
+.link:hover {
+  transition: opacity 0.2s linear;
+  opacity: 0.5;
+}
+
 
 @media screen and (max-width: 767px){
   .about-me{

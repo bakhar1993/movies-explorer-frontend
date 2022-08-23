@@ -6,7 +6,7 @@ function Auth(props) {
   return (
     <section className="auth">
       <div className="auth__container">
-        <img className="auth__logo" src={logo} alt="Логотип" />
+      <Link to="/" className="auth__logo-link link"><img className="auth__logo" src={logo} alt="Логотип" /></Link>
         <h2 className="auth__title">{props.title}</h2>
         <form className="auth__form">
           {props.children}

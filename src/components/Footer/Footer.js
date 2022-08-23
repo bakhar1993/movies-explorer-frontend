@@ -19,16 +19,16 @@ function Footer() {
       <div className="footer__content-container">
         <p className="footer__copyright">&copy; 2022</p>
         <div className="footer__link-list">
-          <a className="footer__link" href="https://practicum.yandex.ru/">
+          <a className="footer__link link" href="https://practicum.yandex.ru/" target="_blank" rel='noopener noreferrer'>
             Яндекс.Практикум
           </a>
-          <a className="footer__link" href="https://github.com/bakhar1993/">
+          <a className="footer__link link" href="https://github.com/bakhar1993/" target="_blank" rel='noopener noreferrer'>
             Github
           </a>
           <a
-            className="footer__link"
+            className="footer__link link"
             href="https://www.facebook.com/profile.php?id=100018056135832"
-          >
+            target="_blank" rel='noopener noreferrer'>
             Facebook
           </a>
         </div>

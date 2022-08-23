@@ -20,10 +20,10 @@ function AboutMe() {
         </p>
 <ul className="about-me__link-list">
     <li className="about-me__link">
-<a className="about-me__link-item" href="https://www.facebook.com/profile.php?id=100018056135832">Facebook</a>
+<a className="about-me__link-item link" href="https://www.facebook.com/profile.php?id=100018056135832" target="_blank" rel='noopener noreferrer'>Facebook</a>
     </li>
     <li className="about-me__link">
-    <a className="about-me__link-item" href="https://github.com/bakhar1993/" >Github</a>
+    <a className="about-me__link-item link" href="https://github.com/bakhar1993/" target="_blank" rel='noopener noreferrer' >Github</a>
     </li>
 </ul>
 
