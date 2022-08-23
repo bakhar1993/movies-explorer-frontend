@@ -1,0 +1,113 @@
+.search {
+  padding: 70px 0;
+  border-bottom: 1px solid #424242;
+  margin: 0 70px 10px;
+}
+
+.search__container {
+  min-height: 72px;
+  background-color: #222222;
+  display: grid;
+  grid-template-columns: 1fr 226px;
+  /* grid-template-columns: minmax(min-content,1fr) 226px ; */
+  box-sizing: border-box;
+  align-items: center;
+  position: relative;
+}
+
+.search__form-submit {
+  padding: 0;
+  background-color: #222222;
+  border: none;
+  background-image: url(../../images/find.svg);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
+  height: 34px;
+  min-width: 80px;
+  border: none;
+}
+.search__form-submit:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}
+.search__form {
+  padding-right: 19px;
+  border-right: 1px solid #505050;
+  /* height: 72px;  */
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+
+.search__form-input {
+  width: calc(100% - 80px);
+  background-color: #222222;
+  border: none;
+  outline: none;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 20px;
+  color: #ffffff;
+}
+
+.search__input-magnifier {
+  min-width: 34px;
+  height: 34px;
+  background-image: url("../../images/icon__search.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@media screen and (max-width: 767px) {
+  .search__container {
+    grid-template-columns: 1fr;
+    gap: 46px;
+    background-color: inherit;
+  }
+  .search__form {
+    border: none;
+    padding-right: 0;
+    background-color: #222222;
+    border-radius: 9px;
+  }
+  .search__form-input {
+    padding: 25px 0 25px 19px;
+    font-size: 14px;
+    border-radius: 9px;
+  }
+}
+@media screen and (max-width: 320px) {
+  .search {
+    margin: 0 10px 10px;
+    padding: 80px 0 44px;
+  }
+
+  .search__input-magnifier {
+    display: none;
+  }
+  .search__form-submit {
+    margin-right: 19px;
+  }
+}
+
+.search__error {
+  display: none;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+  text-align: center;
+  color: #ff004c;
+  position: absolute;
+  bottom: -20px;
+}
+
+.search__error_active {
+  display: inline;
+}
