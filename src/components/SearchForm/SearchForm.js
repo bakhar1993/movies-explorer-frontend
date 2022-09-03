@@ -1,25 +1,24 @@
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useState } from "react";
-import getMovies from "../../utils/MoviesApi";
 
-function SearchForm() {
-  const [value, setValue] = useState("");
+function SearchForm({clickSearchMov,changeCheckbox,requestText,setRequestText,isShortFilm}) {
+  // const [value, setValue] = useState("");
   const [error, setError] = useState(false);
 
+
   function changeInput(e) {
-    setValue(e.target.value);
+    setRequestText(e.target.value);
   }
 
   function submitForm(e) {
     e.preventDefault();
-    if (!value) {
+    if (!requestText) {
       setError(true);
     } else {
       setError(false);
-      getMovies().then((res) => {
-        console.log(res);
-      });
+      clickSearchMov();
+      
     }
   }
 
@@ -33,7 +32,7 @@ function SearchForm() {
             type="text"
             className="search__form-input"
             placeholder="Фильм"
-            value={value}
+            value={requestText}
             onChange={changeInput}
             required
           ></input>
@@ -42,7 +41,9 @@ function SearchForm() {
           </span>
           <button type="submit" className="search__form-submit"></button>
         </form>
-        <FilterCheckbox />
+        <FilterCheckbox changeCheckbox={changeCheckbox} 
+        isShortFilm={isShortFilm}
+        />
       </div>
     </section>
   );

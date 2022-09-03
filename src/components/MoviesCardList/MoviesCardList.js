@@ -1,49 +1,69 @@
-import './MoviesCardList.css';
-import Card from '../MoviesCard/MoviesCard';
+import "./MoviesCardList.css";
+import Card from "../MoviesCard/MoviesCard";
+import { useEffect, useState } from "react";
 
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+function MoviesCardList({
+  movies,
+  handleCardButtonClick,
+  saveMovies,
+  setSaveMovies,
+}) {
+  const [countMov, setCountMov] = useState();
+  const [countNextMov, setCountNextMov] = useState();
+
+  function clickButtonNext() {
+    setCountMov(countMov + countNextMov);
+  }
+
+  function changeCount() {
+    if (window.innerWidth < 769 && window.innerWidth > 320) {
+      setCountMov(2);
+      setCountNextMov(2);
+    } else if (window.innerWidth < 321) {
+      setCountMov(5);
+      setCountNextMov(2);
+    } else {
+      setCountMov(4);
+      setCountNextMov(4);
     }
-  ];
+  }
+  // useEffect(()=>{}[])
 
-function MoviesCardList(){
-    return(
-   <section className="movies-card">
-    <div className="movies-card__container">
-{
-    initialCards.map((mov,key)=>(
-        <Card key={key} 
-        image={mov.link}
-        name={mov.name}
-        />
-    ))
+  useEffect(() => {
+    changeCount();
+    window.addEventListener("resize", () => {
+      setTimeout(changeCount, 2000);
+    });
+    return window.removeEventListener("resize", () => {
+      setTimeout(changeCount, 2000);
+    });
+  }, []);
+
+  return (
+    <section className="movies-card">
+      <div className="movies-card__container">
+        {movies.slice(0, countMov).map((mov) => (
+          <Card
+            key={mov.id}
+            mov={mov}
+            handleCardButtonClick={handleCardButtonClick}
+            saveMovies={saveMovies}
+          />
+        ))}
+      </div>
+      <button
+        className={`movies-card__button ${
+          movies.length === movies.slice(0, countMov).length
+            ? "movies-card__button_none"
+            : ""
+        }`}
+        type="button"
+        onClick={clickButtonNext}
+      >
+        Еще
+      </button>
+    </section>
+  );
 }
-    </div>
-<button className="movies-card__button" type="button">Еще</button>
-   </section>
-    )
-};
 
 export default MoviesCardList;

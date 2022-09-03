@@ -7,6 +7,14 @@
   margin: 0 auto;
 }
 
+.auth__form{
+margin-bottom: 59px;
+}
+
+.auth__form_singin{
+  margin-bottom: 169px;
+}
+
 .auth__title {
   font-family: "Inter";
   font-style: normal;
@@ -22,7 +30,7 @@
   cursor: pointer;
   width: 100%;
   height: 45px;
-  margin-top: 69px;
+  margin-top: 10px;
   background: #4285f4;
   border-radius: 3px;
   border: none;
@@ -71,10 +79,6 @@
   padding: 0;
 }
 
-.auth__input-button_singin{
-  margin-top: 179px;
-}
-
 .auth__input {
   width: 100%;
   /* height: 46px; */
@@ -94,16 +98,23 @@
 }
 
 .auth__input-error {
+  display: block;
+  visibility: hidden;
   font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
   color: #ee3465;
-  height: 10px;
+  min-height: 10px;
   margin-top: 0;
   padding: 0;
-  display: block;
+}
+
+.auth__input-error_active{
+
+  visibility: visible;
+
 }
 
 .link:hover {
@@ -123,6 +134,10 @@
     text-align: center;
   }
 
+  .auth__form{
+    margin-bottom: 157px;
+    }
+
 .auth__logo{
   display: block;
   /* width: 38px; */
@@ -132,15 +147,15 @@
 .auth__button{
   font-size: 12px;
 line-height: 15px;
-margin-top: 157px;
+/* margin-top: 157px; */
 }
 .auth__text{
   font-size: 12px;
 line-height: 15px;
 margin-top: 14px;
 }
-.auth__input-button_singin{
-  margin-top: 267px;
+.auth__form_singin{
+  margin-bottom: 267px;
 }
 
 }

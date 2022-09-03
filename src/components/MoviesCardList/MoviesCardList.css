@@ -5,6 +5,10 @@
   max-width: 100%;
 }
 
+.card__wrap{
+  display: block;
+}
+
 .movies-card__container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px,1fr));
@@ -26,6 +30,15 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
+  cursor: pointer;
+}
+
+.movies-card__button:hover{
+  opacity: 0.8;
+}
+
+.movies-card__button_none{
+  display: none;
 }
 
 @media screen and (max-width: 768px) {
