@@ -5,7 +5,7 @@ import { updateProfile } from "../../utils/MainApi";
 import UserContext from "../../contexts/CurrentUserContext";
 import { useContext } from "react";
 
-function Profile({outProfile}) {
+function Profile({outProfile,setCurrentUser}) {
   const [isValidForm, setIsValidForm] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const currentUser = useContext(UserContext);
@@ -16,7 +16,7 @@ function Profile({outProfile}) {
   });
   const email = useInput({
     isEmpty: true,
-    isEmail: /^[^ ]+@[^ ]+\.[a-z]{2,3}$/,
+    isEmail: /^[^ ]+@[^ ]+\.[a-z]{1,3}$/,
   });
   useEffect(() => {
     !name.isEmpty &&
@@ -28,11 +28,13 @@ function Profile({outProfile}) {
   }, [name, email]);
 
   function editProfile(){
-    updateProfile({name: name.value, email: email.value }).catch(()=>{
-        setSubmitError('При обновлении профиля произошла ошибка.');
-    });
+    const token = localStorage.getItem("jwt");
+    updateProfile({name: name.value, email: email.value,token: token })
+    .then((data)=>{setSubmitError('');setCurrentUser(data)})
+    .catch(()=>{
+        setSubmitError('При обновлении профиля произошла ошибка.')}
+    );
   }
-
   return (
     <section className="profile">
       <div className="profile__container">
@@ -46,6 +48,7 @@ function Profile({outProfile}) {
               className="profile__input"
               placeholder="Изменить имя"
               value={name.value}
+              // defaultValue={currentUser.name}
           onChange={(e) => {
             name.onChange(e);
           }}
@@ -69,6 +72,7 @@ function Profile({outProfile}) {
               className="profile__input"
               placeholder="Изменить почту"
               value={email.value}
+              // defaultValue={currentUser.email}
               onChange={(e) => {
                 email.onChange(e);
               }}

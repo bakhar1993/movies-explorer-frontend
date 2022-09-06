@@ -1,19 +1,25 @@
-// const base_url = "api.diplom.bakhar1993.nomoredomains.xyz";
-const base_url = "http://localhost:3000";
+const base_url = "api.diplom.bakhar1993.nomoredomains.xyz";
+// const base_url = "http://localhost:3000";
 
-function saveMovie(movies) {
+function saveMovie(movies,token) {
   return fetch(`${base_url}/movies`, {
     method: "POST",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      id: movies.id,
+      movieId: movies.id,
       nameRU: movies.nameRU,
+      nameEN: movies.nameEN,
       image: movies.image.url,
       trailerLink: movies.trailerLink,
       duration: movies.duration,
+      country: movies.country,
+      director: movies.director,
+      year: movies.year,
+      description: movies.description,
+      thumbnail: movies.image.url,
     }),
   }).then((res) => {
     if (res.ok) {
@@ -24,28 +30,30 @@ function saveMovie(movies) {
   });
 }
 
-function deleteMovie(id) {
+function deleteMovie(id,token) {
   return fetch(`${base_url}/movies/${id}`, {
     method: "DELETE",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => {
     if (res.ok) {
+      console.log(res)
       return res.json();
     } else {
+      console.log(11)
       return Promise.reject(`Ошибка: ${res.status}`);
     }
   });
 }
 
-function getSavedMovies() {
+function getSavedMovies(token) {
   return fetch(`${base_url}/movies`, {
     method: "GET",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   }).then((res) => {
     if (res.ok) {
@@ -59,7 +67,6 @@ function getSavedMovies() {
 function register({ name, email, password }) {
   return fetch(`${base_url}/signup`, {
     method: "POST",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -76,7 +83,6 @@ function register({ name, email, password }) {
 function login({ email, password }) {
   return fetch(`${base_url}/signin`, {
     method: "POST",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -90,12 +96,12 @@ function login({ email, password }) {
   });
 }
 
-function updateProfile({ name, email }) {
+function updateProfile({ name, email, token }) {
   return fetch(`${base_url}/users/me`, {
     method: "PATCH",
-    credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       name,

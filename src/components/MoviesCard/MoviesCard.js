@@ -3,23 +3,30 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
 
-function MoviesCard({mov,handleCardButtonClick,saveMovies}) {
+function MoviesCard({mov,handleCardButtonClick,saveMovies,movieId}) {
   const [isSave, setIsSave] = useState(false);
   const location = useLocation();
 
   function clickCardButton(){
-    handleCardButtonClick(mov);
+    handleCardButtonClick(mov,movieId);
+  }
+  function checkSaveMovies(){
+    if (saveMovies.length){
+      const movIsSave = saveMovies.some((item)=> item.movieId === movieId);
+      setIsSave(movIsSave);}
+      else{
+        setIsSave(false)
+      }
   }
 
 useEffect(()=>{
-  const movIsSave = saveMovies.some((item)=> item.id === mov.id);
-  setIsSave(movIsSave);
+  checkSaveMovies();
 })
 
   return (
     <div className="card">
       <a className='card__wrap' href={mov.trailerLink} target="_blank" rel="noreferrer" >
-      <img className="card__image" src={` https://api.nomoreparties.co${mov.image.url}`} alt={mov.nameRU} />
+      <img className="card__image" src={mov.image.url || mov.image} alt={mov.nameRU} />
       </a>
       <div className="card__info">
         <div className="card__descriptiion">

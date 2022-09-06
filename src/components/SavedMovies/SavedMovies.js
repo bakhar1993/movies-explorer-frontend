@@ -14,17 +14,11 @@ function SavedMovies({
   const [error, setError] = useState("");
   const [requestText, setRequestText] = useState("");
 
-//   useEffect(()=>{
-//     if(searchDataSaveMovies){
-//         setRequestText(searchDataSaveMovies.requestText);
-//         setIsShortFilm(searchDataSaveMovies.isShortFilm);
-//     }
-//       },[searchDataSaveMovies])
-
-  function handleDeleteClick(mov) {
-    handleCardButtonClick(mov);
+  function handleDeleteClick(mov,movieId) {    
+    handleCardButtonClick(mov,movieId);
+    console.log(movieId)
     setSearchDataSaveMovies(
-      searchDataSaveMovies.filter((item) => item.id !== mov.id)
+      searchDataSaveMovies.filter((item) => item.movieId !== movieId)
     );
   }
 
@@ -41,6 +35,13 @@ function SavedMovies({
       setError("Ничего не найдено");
     }
   }
+
+  //   useEffect(()=>{
+//     if(searchDataSaveMovies){
+//         setRequestText(searchDataSaveMovies.requestText);
+//         setIsShortFilm(searchDataSaveMovies.isShortFilm);
+//     }
+//       },[searchDataSaveMovies])
 
   return (
     <section className="saved-movies">

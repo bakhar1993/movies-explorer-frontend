@@ -12,16 +12,14 @@ function Login({setLoggedIn,setUserInfo}) {
   const history = useHistory();
 
   function clickButton() {
-    login({ email: email.value, password: password.value })
-    .then((data) => {
-        return JSON.stringify(data);
-      })
-      .then((data) => {
-
-localStorage.setItem('jvt',data);
+    login({ email: email.value, password: password.value }).then((data) => {
+if(data){
+  localStorage.setItem('jwt',data.token);
 setLoggedIn(true);
-setUserInfo({email: email.value, password: password.value});
+// setUserInfo({email: email.value, password: password.value});
         history.push("/movies");
+}
+
       })
       .catch(() => {
         setFormError('При авторизации произошла ошибка');

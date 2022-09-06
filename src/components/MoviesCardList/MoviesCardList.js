@@ -1,6 +1,7 @@
 import "./MoviesCardList.css";
 import Card from "../MoviesCard/MoviesCard";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 function MoviesCardList({
   movies,
@@ -10,7 +11,7 @@ function MoviesCardList({
 }) {
   const [countMov, setCountMov] = useState();
   const [countNextMov, setCountNextMov] = useState();
-
+const location = useLocation();
   function clickButtonNext() {
     setCountMov(countMov + countNextMov);
   }
@@ -44,7 +45,8 @@ function MoviesCardList({
       <div className="movies-card__container">
         {movies.slice(0, countMov).map((mov) => (
           <Card
-            key={mov.id}
+            key={mov.id || mov.movieId}
+            movieId = {mov.id || mov.movieId}
             mov={mov}
             handleCardButtonClick={handleCardButtonClick}
             saveMovies={saveMovies}
@@ -53,7 +55,7 @@ function MoviesCardList({
       </div>
       <button
         className={`movies-card__button ${
-          movies.length === movies.slice(0, countMov).length
+          ((movies.length === movies.slice(0, countMov).length) || (location.pathname === '/saved-movies'))
             ? "movies-card__button_none"
             : ""
         }`}

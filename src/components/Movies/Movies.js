@@ -28,6 +28,13 @@ function Movies({ searchMov,handleCardButtonClick,saveMovies }) {
     setIsShortFilm(!isShortFilm);
   }
 
+  function changeMoviesPath(data){
+    return data.map((item)=>{
+     item.image.url = 'https://api.nomoreparties.co' + item.image.url;
+     return item;
+     })
+   }
+
   function clickSearchMov() {
     setIsLoading(true);
     getMovies()
@@ -35,8 +42,12 @@ function Movies({ searchMov,handleCardButtonClick,saveMovies }) {
         return JSON.stringify(data);
       })
       .then((data) => {
+
+
+// const mov = changeMoviesPath(JSON.parse(data));
+
         const moviesList = searchMov(
-          JSON.parse(data),
+          changeMoviesPath(JSON.parse(data)),
           requestText,
           isShortFilm
         );

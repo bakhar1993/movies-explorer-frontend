@@ -21,7 +21,7 @@ import {
 } from "../../utils/MainApi";
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   // const [saveMovies, setSaveMovies] = useState([{
   //   "id": 1,
   //   "nameRU": "«Роллинг Стоунз» в изгнании",
@@ -79,16 +79,18 @@ function App() {
   const [searchDataSaveMovies, setSearchDataSaveMovies] = useState(null);
   const [currentUser, setCurrentUser] = useState("");
 
-  //загрузка сохраненных фильмов
+  // загрузка сохраненных фильмов
   useEffect(() => {
-    getSavedMovies()
+    const jwt = localStorage.getItem("jwt");
+    getSavedMovies(jwt)
       .then((data) => {
+        // if(data) 
         return JSON.stringify(data);
       })
       .then((data) => {
         setSaveMovies(JSON.parse(data));
       });
-  }, []);
+  }, [loggedIn]);
 
   //Загрузка данных пользователя
   useEffect(() => {
@@ -99,19 +101,52 @@ function App() {
           return JSON.stringify(data);
         })
         .then((data) => {
-          setCurrentUser(data);
-        });
+          setLoggedIn(true);
+          setCurrentUser(JSON.parse(data));
+        })
     }
-  }, [currentUser]);
+  }, []);
 
-  function handleCardButtonClick(mov) {
-    if (saveMovies.find((item) => item.id === mov.id)) {
-      deleteMovie(mov.id);
-      setSaveMovies(saveMovies.filter((item) => item.id !== mov.id));
-    } else {
-      saveMovie(mov);
-      setSaveMovies((prev) => [...prev, mov]);
+  function removeMovies(mov,movieId){
+    const jwt = localStorage.getItem("jwt");
+    deleteMovie(mov._id,jwt).then(setSaveMovies(saveMovies.filter((item) => item.movieId !== movieId)))
+    
+  }
+
+  function handleCardButtonClick(mov,movieId) {
+    const jwt = localStorage.getItem("jwt");
+    // console.log(mov._id)
+    if(saveMovies.length){
+      
+      if (saveMovies.find((item) => item.movieId === movieId)) {
+        
+        const res = saveMovies.find((item)=>{return item.movieId === movieId});
+        // console.log(res);
+        removeMovies(res,movieId);
+
+        // deleteMovie(mov._id,jwt);
+        // setSaveMovies(saveMovies.filter((item) => item.movieId !== movieId));
+      } 
+      else {
+        saveMovie(mov,jwt).then((data)=>{
+          // console.log(mov._id)
+          setSaveMovies((prev) => [...prev, data])
+        }
+          )
+      
+      }
     }
+    else{
+      saveMovie(mov,jwt).then((data)=>{
+        setSaveMovies([data]);
+        console.log(typeof data._id)
+      })
+      // .then(console.log(saveMovies))
+
+      // saveMovie(mov,jwt);
+      // setSaveMovies([{mov,movieId}]);
+    }
+
   }
 
   function outProfile() {
@@ -163,7 +198,7 @@ function App() {
             <ProtectedRoute
               saveMovies={saveMovies}
               searchMov={searchMov}
-              handleCardButtonClick={handleCardButtonClick}
+              handleCardButtonClick={removeMovies}
               searchDataSaveMovies={searchDataSaveMovies}
               setSearchDataSaveMovies={setSearchDataSaveMovies}
               loggedIn={loggedIn}
@@ -176,6 +211,7 @@ function App() {
               outProfile={outProfile}
               loggedIn={loggedIn}
               component={Profile}
+              setCurrentUser={setCurrentUser}
             />
           </Route>
 
