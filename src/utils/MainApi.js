@@ -1,4 +1,4 @@
-const base_url = "api.diplom.bakhar1993.nomoredomains.xyz";
+const base_url = "https://api.diplom.bakhar1993.nomoredomains.xyz";
 // const base_url = "http://localhost:3000";
 
 function saveMovie(movies,token) {
