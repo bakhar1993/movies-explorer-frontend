@@ -1,5 +1,5 @@
-const base_url = "https://api.diplom.bakhar1993.nomoredomains.xyz";
-// const base_url = "http://localhost:3000";
+// const base_url = "https://api.diplom.bakhar1993.nomoredomains.xyz";
+const base_url = "http://localhost:3000";
 
 function saveMovie(movies,token) {
   return fetch(`${base_url}/movies`, {
@@ -39,10 +39,8 @@ function deleteMovie(id,token) {
     },
   }).then((res) => {
     if (res.ok) {
-      console.log(res)
       return res.json();
     } else {
-      console.log(11)
       return Promise.reject(`Ошибка: ${res.status}`);
     }
   });
@@ -117,6 +115,7 @@ function updateProfile({ name, email, token }) {
 
 function getUserInfo(token) {
   return fetch(`${base_url}/users/me`, {
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,

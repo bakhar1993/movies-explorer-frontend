@@ -12,7 +12,7 @@ import Register from "../Register/Register";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import NotFound from "../NotFound/NotFound";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   getSavedMovies,
   deleteMovie,
@@ -26,21 +26,8 @@ function App() {
   const [searchDataSaveMovies, setSearchDataSaveMovies] = useState(null);
   const [currentUser, setCurrentUser] = useState("");
 
-  // загрузка сохраненных фильмов
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    getSavedMovies(jwt)
-      .then((data) => {
-        // if(data) 
-        return JSON.stringify(data);
-      })
-      .then((data) => {
-        setSaveMovies(JSON.parse(data));
-      });
-  }, [loggedIn]);
-
   //Загрузка данных пользователя
-  useEffect(() => {
+  const getUserData = useCallback(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
       getUserInfo(jwt)
@@ -52,7 +39,11 @@ function App() {
           setCurrentUser(JSON.parse(data));
         })
     }
-  }, [loggedIn]);
+  },[]);
+
+  useEffect(() => {
+    getUserData();
+  }, [loggedIn, getUserData]);
 
   function removeMovies(mov,movieId){
     const jwt = localStorage.getItem("jwt");
@@ -79,7 +70,6 @@ function App() {
     else{
       saveMovie(mov,jwt).then((data)=>{
         setSaveMovies([data]);
-        console.log(typeof data._id)
       })
     }
 
@@ -127,6 +117,7 @@ function App() {
               handleCardButtonClick={handleCardButtonClick}
               loggedIn={loggedIn}
               component={Movies}
+              setSaveMovies={setSaveMovies}
             />
           </Route>
 

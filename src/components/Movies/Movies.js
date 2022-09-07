@@ -4,8 +4,9 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { useEffect, useState } from "react";
 import getMovies from "../../utils/MoviesApi";
+import { getSavedMovies} from "../../utils/MainApi";
 
-function Movies({ searchMov,handleCardButtonClick,saveMovies }) {
+function Movies({ searchMov,handleCardButtonClick,saveMovies,setSaveMovies }) {
   const [error, setError] = useState("");
   const [isShortFilm, setIsShortFilm] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
@@ -23,6 +24,19 @@ function Movies({ searchMov,handleCardButtonClick,saveMovies }) {
       setIsShortFilm(movies.isShortFilm);
     }
   }, [movies]);
+
+    // загрузка сохраненных фильмов
+    useEffect(() => {
+      const jwt = localStorage.getItem("jwt");
+      getSavedMovies(jwt)
+        .then((data) => {
+          // if(data) 
+          return JSON.stringify(data);
+        })
+        .then((data) => {
+          setSaveMovies(JSON.parse(data));
+        });
+    },[]);
 
   function changeCheckbox() {
     setIsShortFilm(!isShortFilm);

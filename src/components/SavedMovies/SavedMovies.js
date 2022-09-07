@@ -16,7 +16,6 @@ function SavedMovies({
 
   function handleDeleteClick(mov,movieId) {    
     handleCardButtonClick(mov,movieId);
-    console.log(movieId)
     setSearchDataSaveMovies(
       searchDataSaveMovies.filter((item) => item.movieId !== movieId)
     );
