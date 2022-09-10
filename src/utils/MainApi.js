@@ -1,8 +1,7 @@
-// const base_url = "https://api.diplom.bakhar1993.nomoredomains.xyz";
-const base_url = "http://localhost:3000";
+import { BASE_URL } from "./constants";
 
 function saveMovie(movies,token) {
-  return fetch(`${base_url}/movies`, {
+  return fetch(`${BASE_URL}/movies`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +30,7 @@ function saveMovie(movies,token) {
 }
 
 function deleteMovie(id,token) {
-  return fetch(`${base_url}/movies/${id}`, {
+  return fetch(`${BASE_URL}/movies/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -47,7 +46,7 @@ function deleteMovie(id,token) {
 }
 
 function getSavedMovies(token) {
-  return fetch(`${base_url}/movies`, {
+  return fetch(`${BASE_URL}/movies`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -63,7 +62,7 @@ function getSavedMovies(token) {
 }
 
 function register({ name, email, password }) {
-  return fetch(`${base_url}/signup`, {
+  return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -79,7 +78,7 @@ function register({ name, email, password }) {
 }
 
 function login({ email, password }) {
-  return fetch(`${base_url}/signin`, {
+  return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -95,7 +94,7 @@ function login({ email, password }) {
 }
 
 function updateProfile({ name, email, token }) {
-  return fetch(`${base_url}/users/me`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -114,7 +113,7 @@ function updateProfile({ name, email, token }) {
 }
 
 function getUserInfo(token) {
-  return fetch(`${base_url}/users/me`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

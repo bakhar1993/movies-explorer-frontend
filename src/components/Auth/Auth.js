@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import "./Auth.css";
 import logo from "../../images/logo.svg";
+import { HOME_PAGE } from "../../utils/constants";
 
 function Auth(props) {
   return (
     <section className="auth">
       <div className="auth__container">
-      <Link to="/" className="auth__logo-link link"><img className="auth__logo" src={logo} alt="Логотип" /></Link>
+      <Link to={HOME_PAGE} className="auth__logo-link link"><img className="auth__logo" src={logo} alt="Логотип" /></Link>
         <h2 className="auth__title">{props.title}</h2>
         <form className={`auth__form ${props.class ? props.class : '' }`}>
           {props.children}

@@ -93,6 +93,23 @@
 
 }
 
+.profile__info{
+  visibility: hidden;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: #14ad21;
+  padding: 0;
+}
+
+.profile__info_active{
+  visibility: visible;
+
+}
+
 .profile__input-error{
   visibility: hidden;
   display: block;
@@ -125,5 +142,9 @@ line-height: 15px;
   }
   .profile__button-edit{
     margin-top: 379px;
+  }
+  .profile__info{
+    font-size: 12px;
+    line-height: 15px;
   }
 }

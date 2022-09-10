@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import { useState } from "react";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import {MOVIES_PAGE, SAVED_MOVIES_PAGE, PROFILE_PAGE, HOME_PAGE, SIGNUP_PAGE, SIGNIN_PAGE} from "../../utils/constants";
 
 function Header({ loggedIn }) {
   const location = useLocation();
@@ -17,17 +18,17 @@ function Header({ loggedIn }) {
     <header
       // className={`header ${(location.pathname === "/" && "header_type_home") || (!loggedIn && location.pathname !== "/" && "header_type_none")}`}
       className={`header ${
-        (location.pathname === "/" && "header_type_home") ||
-        (location.pathname !== "/" &&
-        location.pathname !== "/movies" &&
-        location.pathname !== "/saved-movies" &&
-        location.pathname !== "/profile"
+        (location.pathname === HOME_PAGE && "header_type_home") ||
+        (location.pathname !== HOME_PAGE &&
+        location.pathname !== MOVIES_PAGE &&
+        location.pathname !== SAVED_MOVIES_PAGE &&
+        location.pathname !== PROFILE_PAGE
           ? "header_type_none"
           : "")
       }`}
     >
       <div className="header__container">
-        <Link to={"/"} className="header__logo-link link">
+        <Link to={HOME_PAGE} className="header__logo-link link">
           <img src={logo} className="header__logo" alt="Логотип" />
         </Link>
 
@@ -35,13 +36,13 @@ function Header({ loggedIn }) {
           <div className="header__auth">
             <Link
               className="header__link header__link-signup link"
-              to={"/signup"}
+              to={SIGNUP_PAGE}
             >
               Регистрация
             </Link>
             <Link
               className="header__link header__link-signin link"
-              to={"/signin"}
+              to={SIGNIN_PAGE}
             >
               Войти
             </Link>

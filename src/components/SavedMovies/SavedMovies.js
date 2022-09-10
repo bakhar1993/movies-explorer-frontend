@@ -2,6 +2,8 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./SavedMovies.css";
 import { useState } from "react";
+import { useEffect } from "react";
+import { getSavedMovies } from "../../utils/MainApi";
 
 function SavedMovies({
   searchMov,
@@ -9,13 +11,30 @@ function SavedMovies({
   handleCardButtonClick,
   setSearchDataSaveMovies,
   searchDataSaveMovies,
+  setSaveMovies,
 }) {
   const [isShortFilm, setIsShortFilm] = useState(false);
   const [error, setError] = useState("");
   const [requestText, setRequestText] = useState("");
 
-  function handleDeleteClick(mov,movieId) {    
-    handleCardButtonClick(mov,movieId);
+  // загрузка сохраненных фильмов
+  useEffect(() => {
+    if (saveMovies.length) {
+      setSearchDataSaveMovies(saveMovies);
+    } else {
+      const jwt = localStorage.getItem("jwt");
+      getSavedMovies(jwt)
+        .then((data) => {
+          return JSON.stringify(data);
+        })
+        .then((data) => {
+          setSearchDataSaveMovies(JSON.parse(data));
+        });
+    }
+  }, []);
+
+  function handleDeleteClick(mov, movieId) {
+    handleCardButtonClick(mov, movieId);
     setSearchDataSaveMovies(
       searchDataSaveMovies.filter((item) => item.movieId !== movieId)
     );
@@ -34,13 +53,6 @@ function SavedMovies({
       setError("Ничего не найдено");
     }
   }
-
-  //   useEffect(()=>{
-//     if(searchDataSaveMovies){
-//         setRequestText(searchDataSaveMovies.requestText);
-//         setIsShortFilm(searchDataSaveMovies.isShortFilm);
-//     }
-//       },[searchDataSaveMovies])
 
   return (
     <section className="saved-movies">

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "./BurgerMenu.css";
+import {MOVIES_PAGE, SAVED_MOVIES_PAGE, PROFILE_PAGE, HOME_PAGE} from "../../utils/constants";
 
 function BurgerMenu({ isOpen, handleBurger }) {
   return (
@@ -14,21 +15,21 @@ function BurgerMenu({ isOpen, handleBurger }) {
           className="burger-menu__link"
           activeClassName="burger-menu__link_active"
           exact
-          to="/"
+          to={HOME_PAGE}
         >
           Главная
         </NavLink>
         <NavLink
           className="burger-menu__link"
           activeClassName="burger-menu__link_active"
-          to="/movies"
+          to={MOVIES_PAGE}
         >
           Фильмы{" "}
         </NavLink>
         <NavLink
           className="burger-menu__link"
           activeClassName="burger-menu__link_active"
-          to="/saved-movies"
+          to={SAVED_MOVIES_PAGE}
         >
           Сохранённые фильмы{" "}
         </NavLink>
@@ -36,7 +37,7 @@ function BurgerMenu({ isOpen, handleBurger }) {
         <NavLink
           className="burger-menu__link burger-menu__accaunt-link"
           activeClassName="burger-menu__link_active"
-          to="/profile"
+          to={PROFILE_PAGE}
         >
           <p className="burger-menu__text">Аккаунт</p>
           <div className="burger-menu__icon"></div>

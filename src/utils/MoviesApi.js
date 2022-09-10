@@ -1,6 +1,8 @@
+import { BEATFILM_API } from "./constants";
+
 function getMovies(){
 
-return fetch('https://api.nomoreparties.co/beatfilm-movies').then((res)=>{
+return fetch(BEATFILM_API).then((res)=>{
     if (res.ok) {
         return res.json();
       }

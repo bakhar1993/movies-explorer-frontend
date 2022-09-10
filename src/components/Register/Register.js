@@ -4,8 +4,10 @@ import useInput from "../../utils/useFormValidation";
 import { useState, useEffect } from "react";
 import { register } from "../../utils/MainApi";
 import { useHistory } from "react-router-dom";
+import { login } from "../../utils/MainApi";
+import { SIGNIN_PAGE } from "../../utils/constants";
 
-function Register() {
+function Register({setLoggedIn}) {
   const [isValidForm, setIsValidForm] = useState(false);
   const [formError,setFormError] = useState('');
 
@@ -29,25 +31,35 @@ function Register() {
     Object.keys(password.inputError).length === 0
       ? setIsValidForm(true)
       : setIsValidForm(false);
-    // (name.isValid && email.isValid && password.isValid) ? setIsValidForm(true) : setIsValidForm(false);
+    // (name.isValid && email.isValid && password.isValid) ? setIsValidForm(true) : setIsValidForm(false); 
   }, [name, email, password]);
 
   function clickButton() {
     register({ name: name.value, email: email.value, password: password.value })
       .then(() => {
-        history.push("/movies")
+        login({ email: email.value, password: password.value }).then((data) => {
+          if(data){
+            localStorage.setItem('jwt',data.token);
+          setLoggedIn(true);
+                  history.push("/movies");
+          }
+                })
+                .catch(() => {
+                  setFormError('При авторизации произошла ошибка');
+              });
       })
       .catch(() => {
         setFormError('При регистрации пользователя произошла ошибка');
     });
   }
+
   return (
     <Auth
       title="Добро пожаловать!"
       button="Зарегистрироваться"
       text="Уже зарегистрированы? "
       link="Войти"
-      href="/signin"
+      href={SIGNIN_PAGE}
       buttonIsActive={isValidForm}
       clickButton={clickButton}
       formError={formError}

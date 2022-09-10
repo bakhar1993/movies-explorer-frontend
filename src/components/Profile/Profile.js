@@ -8,6 +8,7 @@ import { useContext } from "react";
 function Profile({outProfile,setCurrentUser}) {
   const [isValidForm, setIsValidForm] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [isSend, setIsSend] = useState(false);
   const currentUser = useContext(UserContext);
 
   const name = useInput({
@@ -22,7 +23,8 @@ function Profile({outProfile,setCurrentUser}) {
     !name.isEmpty &&
     !email.isEmpty &&
     Object.keys(name.inputError).length === 0 &&
-    Object.keys(email.inputError).length === 0
+    Object.keys(email.inputError).length === 0 &&
+    ((email.value !== currentUser.email) || (name.value !== currentUser.name))
       ? setIsValidForm(true)
       : setIsValidForm(false);
   }, [name, email]);
@@ -30,7 +32,10 @@ function Profile({outProfile,setCurrentUser}) {
   function editProfile(){
     const token = localStorage.getItem("jwt");
     updateProfile({name: name.value, email: email.value,token: token })
-    .then((data)=>{setSubmitError('');setCurrentUser(data)})
+    .then((data)=>{setSubmitError('');
+    setCurrentUser(data);
+    setIsSend(true);
+  })
     .catch(()=>{
         setSubmitError('При обновлении профиля произошла ошибка.')}
     );
@@ -47,10 +52,11 @@ function Profile({outProfile,setCurrentUser}) {
               type="text"
               className="profile__input"
               placeholder="Изменить имя"
-              value={name.value}
-              // defaultValue={currentUser.name}
+              // value={name.value}
+              defaultValue={ name.value || currentUser.name }
           onChange={(e) => {
             name.onChange(e);
+            setIsSend(false);
           }}
           required
             />
@@ -71,10 +77,11 @@ function Profile({outProfile,setCurrentUser}) {
               type="email"
               className="profile__input"
               placeholder="Изменить почту"
-              value={email.value}
-              // defaultValue={currentUser.email}
+              // value={email.value}
+              defaultValue={email.value || currentUser.email}
               onChange={(e) => {
                 email.onChange(e);
+                setIsSend(false);
               }}
               required
             />
@@ -89,9 +96,12 @@ function Profile({outProfile,setCurrentUser}) {
         </label>
         </form>
 
-
+<span className={`profile__info${isSend ? " profile__info_active"
+              : ""}`}>Данные профиля успешно обновлены!</span>
 <span className={`profile__input-error${submitError ? " profile__input-error_active"
               : ""}`}>{submitError}</span>
+
+
         <button type="submit" className="profile__button-edit profile__button" onClick={editProfile} disabled={!isValidForm}>
           Редактировать
         </button>

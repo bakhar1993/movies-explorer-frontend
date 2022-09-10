@@ -3,6 +3,7 @@ import useInput from "../../utils/useFormValidation";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { login } from "../../utils/MainApi";
+import { SIGNUP_PAGE } from "../../utils/constants";
 
 function Login({setLoggedIn,setUserInfo}) {
   const [isValidForm, setIsValidForm] = useState(false);
@@ -16,16 +17,14 @@ function Login({setLoggedIn,setUserInfo}) {
 if(data){
   localStorage.setItem('jwt',data.token);
 setLoggedIn(true);
-// setUserInfo({email: email.value, password: password.value});
         history.push("/movies");
 }
-
       })
       .catch(() => {
         setFormError('При авторизации произошла ошибка');
     });
   }
-
+  
   useEffect(() => {
     !email.isEmpty &&
     !password.isEmpty &&
@@ -42,7 +41,7 @@ setLoggedIn(true);
       class="auth__form_singin"
       text="Ещё не зарегистрированы? "
       link="Регистрация"
-      href="/signup"
+      href={SIGNUP_PAGE}
       buttonIsActive={isValidForm}
       clickButton={clickButton}
       formError={formError}

@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import UserContext from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -19,6 +19,7 @@ import {
   saveMovie,
   getUserInfo,
 } from "../../utils/MainApi";
+import { HOME_PAGE, MOVIES_PAGE, NOT_FOUND_PAGE, PROFILE_PAGE, SAVED_MOVIES_PAGE, SHORT_MOVIES, SIGNIN_PAGE, SIGNUP_PAGE } from "../../utils/constants";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -54,11 +55,10 @@ function App() {
   function handleCardButtonClick(mov,movieId) {
     const jwt = localStorage.getItem("jwt");
     if(saveMovies.length){
-      
       if (saveMovies.find((item) => item.movieId === movieId)) {
         const res = saveMovies.find((item)=>{return item.movieId === movieId});
         removeMovies(res,movieId);
-      } 
+      }
       else {
         saveMovie(mov,jwt).then((data)=>{
           setSaveMovies((prev) => [...prev, data])
@@ -94,7 +94,7 @@ function App() {
     } else {
       const res = mov.filter((item) => {
         return (
-          item.nameRU.toLowerCase().includes(wordToLower) && item.duration <= 40
+          item.nameRU.toLowerCase().includes(wordToLower) && item.duration <= SHORT_MOVIES
         );
       });
       return res;
@@ -106,11 +106,11 @@ function App() {
       <Header loggedIn={loggedIn} />
       <UserContext.Provider value={currentUser}>
         <Switch>
-          <Route exact path={"/"}>
+          <Route exact path={HOME_PAGE}>
             <Main />
           </Route>
 
-          <Route path={"/movies"}>
+          <Route path={MOVIES_PAGE}>
             <ProtectedRoute
               searchMov={searchMov}
               saveMovies={saveMovies}
@@ -121,10 +121,11 @@ function App() {
             />
           </Route>
 
-          <Route path={"/saved-movies"}>
+          <Route path={SAVED_MOVIES_PAGE}>
             <ProtectedRoute
               saveMovies={saveMovies}
               searchMov={searchMov}
+              setSaveMovies={setSaveMovies}
               handleCardButtonClick={removeMovies}
               searchDataSaveMovies={searchDataSaveMovies}
               setSearchDataSaveMovies={setSearchDataSaveMovies}
@@ -133,7 +134,7 @@ function App() {
             />
           </Route>
 
-          <Route path={"/profile"}>
+          <Route path={PROFILE_PAGE}>
             <ProtectedRoute
               outProfile={outProfile}
               loggedIn={loggedIn}
@@ -142,15 +143,23 @@ function App() {
             />
           </Route>
 
-          <Route path={"/signin"}>
-            <Login setLoggedIn={setLoggedIn} setUserInfo={setCurrentUser} />
+          <Route path={SIGNIN_PAGE}>
+            {loggedIn ?
+            <Redirect to={HOME_PAGE} />
+          : <Login setLoggedIn={setLoggedIn} setUserInfo={setCurrentUser} />
+          }
           </Route>
 
-          <Route path={"/signup"}>
-            <Register />
+          <Route path={SIGNUP_PAGE}>
+          {loggedIn ?
+            <Redirect to={HOME_PAGE} />
+            :           
+            <Register
+            setLoggedIn={setLoggedIn}/>
+          }
           </Route>
 
-          <Route path={"*"}>
+          <Route path={NOT_FOUND_PAGE}>
             <NotFound />
           </Route>
         </Switch>
