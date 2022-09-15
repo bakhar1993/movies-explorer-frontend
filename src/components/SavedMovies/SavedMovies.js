@@ -2,8 +2,6 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./SavedMovies.css";
 import { useState } from "react";
-import { useEffect } from "react";
-import { getSavedMovies } from "../../utils/MainApi";
 
 function SavedMovies({
   searchMov,
@@ -17,27 +15,13 @@ function SavedMovies({
   const [error, setError] = useState("");
   const [requestText, setRequestText] = useState("");
 
-  // загрузка сохраненных фильмов
-  useEffect(() => {
-    if (saveMovies.length) {
-      setSearchDataSaveMovies(saveMovies);
-    } else {
-      const jwt = localStorage.getItem("jwt");
-      getSavedMovies(jwt)
-        .then((data) => {
-          return JSON.stringify(data);
-        })
-        .then((data) => {
-          setSearchDataSaveMovies(JSON.parse(data));
-        });
-    }
-  }, []);
-
   function handleDeleteClick(mov, movieId) {
     handleCardButtonClick(mov, movieId);
-    setSearchDataSaveMovies(
-      searchDataSaveMovies.filter((item) => item.movieId !== movieId)
+    setSaveMovies(
+      saveMovies.filter((item) => item.movieId !== movieId)
     );
+    if(searchDataSaveMovies){
+setSearchDataSaveMovies(null)}
   }
 
   function changeCheckbox() {
@@ -45,13 +29,15 @@ function SavedMovies({
   }
 
   function clickSearchSaveMov() {
+    if(saveMovies){
     const moviesList = searchMov(saveMovies, requestText, isShortFilm);
     if (moviesList.length) {
       setSearchDataSaveMovies(moviesList);
       setError("");
     } else {
       setError("Ничего не найдено");
-    }
+    }}
+   else{setError("Ничего не найдено");}
   }
 
   return (
@@ -68,13 +54,15 @@ function SavedMovies({
         {error}{" "}
       </div>
 
-      {!error && searchDataSaveMovies && (
+{!error && (saveMovies) && (
+
         <MoviesCardList
           handleCardButtonClick={handleDeleteClick}
-          movies={searchDataSaveMovies}
+          movies={searchDataSaveMovies || saveMovies}
           saveMovies={saveMovies}
         />
       )}
+{/* <div>{console.log(saveMovies)}</div> */}
     </section>
   );
 }

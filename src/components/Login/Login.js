@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { login } from "../../utils/MainApi";
 import { SIGNUP_PAGE } from "../../utils/constants";
+import { useFormWithValidation } from "../../utils/useFormWithValidation";
 
 function Login({setLoggedIn,setUserInfo}) {
-  const [isValidForm, setIsValidForm] = useState(false);
   const [formError, setFormError] = useState("");
-  const email = useInput({isEmpty: true,isEmail: /^[^ ]+@[^ ]+\.[a-z]{2,3}$/,});
-  const password = useInput({ isEmpty: true });
+  const {values, handleChange, errors, isValid} = useFormWithValidation();
+
   const history = useHistory();
 
-  function clickButton() {
-    login({ email: email.value, password: password.value }).then((data) => {
+  function clickButton(e) {
+    e.preventDefault();
+    login({ email: values.email, password: values.password }).then((data) => {
 if(data){
   localStorage.setItem('jwt',data.token);
 setLoggedIn(true);
@@ -25,69 +26,51 @@ setLoggedIn(true);
     });
   }
   
-  useEffect(() => {
-    !email.isEmpty &&
-    !password.isEmpty &&
-    Object.keys(email.inputError).length === 0 &&
-    Object.keys(password.inputError).length === 0
-      ? setIsValidForm(true)
-      : setIsValidForm(false);
-  }, [email, password]);
 
   return (
     <Auth
       title="Рады видеть!"
       button="Войти"
-      class="auth__form_singin"
+      class="auth__button_singin"
       text="Ещё не зарегистрированы? "
       link="Регистрация"
       href={SIGNUP_PAGE}
-      buttonIsActive={isValidForm}
-      clickButton={clickButton}
+      buttonIsActive={isValid}
+      submitForm={clickButton}
       formError={formError}
     >
       <label>
         <p className="auth__input-text">E-mail</p>
         <input
+        name="email"
           type="email"
           className="auth__input"
-          value={email.value}
+          value={values.email || ''}
           onChange={(e) => {
-            email.onChange(e);
+            handleChange(e);
           }}
           required
         />
         <span
-          className={`auth__input-error ${
-            !email.isEmpty && Object.keys(email.inputError).length >= 1
-              ? " auth__input-error_active"
-              : ""
-          }`}
-        >{`${Object.keys(email.inputError).map((key) => {
-          return email.inputError[key];
-        })}`}</span>
+          className="auth__input-error auth__input-error_active"
+        >{errors.email}</span>
       </label>
 
       <label>
         <p className="auth__input-text">Пароль</p>
         <input
+        name="password"
           type="password"
           className="auth__input"
-          value={password.value}
+          value={values.password || ''}
           onChange={(e) => {
-            password.onChange(e);
+            handleChange(e);
           }}
           required
         />
-        <span
-          className={`auth__input-error ${
-            !password.isEmpty && Object.keys(password.inputError).length >= 1
-              ? " auth__input-error_active"
-              : ""
-          }`}
-        >{`${Object.keys(password.inputError).map((key) => {
-          return password.inputError[key];
-        })}`}</span>
+      <span
+          className="auth__input-error auth__input-error_active"
+        >{errors.password}</span>
       </label>
     </Auth>
   );

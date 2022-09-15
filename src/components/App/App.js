@@ -1,5 +1,5 @@
 import "./App.css";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 
 import UserContext from "../../contexts/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -23,11 +23,12 @@ import { HOME_PAGE, MOVIES_PAGE, NOT_FOUND_PAGE, PROFILE_PAGE, SAVED_MOVIES_PAGE
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [saveMovies, setSaveMovies] = useState([]);
+  const [foundMovies, setFoundMovies] = useState(null);
+  const [saveMovies, setSaveMovies] = useState(null);
   const [searchDataSaveMovies, setSearchDataSaveMovies] = useState(null);
   const [currentUser, setCurrentUser] = useState("");
+  const location = useLocation();
 
-  //Загрузка данных пользователя
   const getUserData = useCallback(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
@@ -38,13 +39,44 @@ function App() {
         .then((data) => {
           setLoggedIn(true);
           setCurrentUser(JSON.parse(data));
-        })
-    }
+        }).catch(()=>{
+          setSaveMovies(null);
+          setSearchDataSaveMovies(null);
+          setCurrentUser('');
+          localStorage.clear("movies");
+          localStorage.clear("jwt");
+          localStorage.clear("found-movies");
+          setLoggedIn(false);
+          setFoundMovies(null)
+        }
+        )
+    };
   },[]);
 
   useEffect(() => {
     getUserData();
   }, [loggedIn, getUserData]);
+
+  useEffect(() => {
+    if(loggedIn){
+          const jwt = localStorage.getItem("jwt");
+    getSavedMovies(jwt)
+      .then((data) => {
+        return JSON.stringify(data);
+      })
+      .then((data) => {
+        if(Array.isArray(JSON.parse(data))){
+        setSaveMovies(JSON.parse(data));
+        
+      }
+            })
+    }
+  }, [loggedIn]);
+
+  useEffect(()=>{
+      setSearchDataSaveMovies(null)
+    },[location]);
+
 
   function removeMovies(mov,movieId){
     const jwt = localStorage.getItem("jwt");
@@ -54,14 +86,14 @@ function App() {
 
   function handleCardButtonClick(mov,movieId) {
     const jwt = localStorage.getItem("jwt");
-    if(saveMovies.length){
+    if(saveMovies){
       if (saveMovies.find((item) => item.movieId === movieId)) {
         const res = saveMovies.find((item)=>{return item.movieId === movieId});
         removeMovies(res,movieId);
       }
       else {
         saveMovie(mov,jwt).then((data)=>{
-          setSaveMovies((prev) => [...prev, data])
+          setSaveMovies((prev) => [...prev, data]);
         }
           )
       
@@ -78,9 +110,12 @@ function App() {
   function outProfile() {
     localStorage.clear("movies");
     localStorage.clear("jwt");
-    setSaveMovies([]);
+    localStorage.clear("found-movies");
     setLoggedIn(false);
     setCurrentUser("");
+    setSaveMovies(null);
+    setSearchDataSaveMovies(null);
+    setFoundMovies(null)
   }
 
   //Поиск фильмов
@@ -118,6 +153,8 @@ function App() {
               loggedIn={loggedIn}
               component={Movies}
               setSaveMovies={setSaveMovies}
+              foundMovies={foundMovies}
+              setFoundMovies={setFoundMovies}
             />
           </Route>
 

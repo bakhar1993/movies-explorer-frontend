@@ -9,20 +9,17 @@ function Auth(props) {
       <div className="auth__container">
       <Link to={HOME_PAGE} className="auth__logo-link link"><img className="auth__logo" src={logo} alt="Логотип" /></Link>
         <h2 className="auth__title">{props.title}</h2>
-        <form className={`auth__form ${props.class ? props.class : '' }`}>
+        <form className="auth__form" onSubmit={(e)=>{ e.preventDefault(); props.submitForm(e)}}>
           {props.children}
-  
-        </form>
-
         <span className={`auth__input-error ${
             props.formError
               ? " auth__input-error_active"
               : ""
           }`}>{props.formError}</span>
-        <button type="submit" className={`auth__button`} disabled={!props.buttonIsActive} onClick={props.clickButton}>
+        <button type="submit" className={`auth__button ${props.class ? props.class : '' }`} disabled={!props.buttonIsActive} >
             {props.button}
           </button>
-
+          </form>
         <p className="auth__text">
           {props.text}
           <Link className="auth__link link" to={props.href}>

@@ -10,14 +10,13 @@ function Movies({
   searchMov,
   handleCardButtonClick,
   saveMovies,
-  setSaveMovies,
+  foundMovies,
+  setFoundMovies
 }) {
   const [error, setError] = useState("");
   const [isShortFilm, setIsShortFilm] = useState(false);
   const [isSearch, setIsSearch] = useState(false);
   const [requestText, setRequestText] = useState("");
-  // const [movies, setMovies] = useState(null);
-  const [foundMovies, setFoundMovies] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -30,18 +29,6 @@ function Movies({
       setIsShortFilm(foundMovies.isShortFilm);
     }
   }, [foundMovies]);
-
-  // загрузка сохраненных фильмов
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    getSavedMovies(jwt)
-      .then((data) => {
-        return JSON.stringify(data);
-      })
-      .then((data) => {
-        setSaveMovies(JSON.parse(data));
-      });
-  }, []);
 
   function changeCheckbox() {
     setIsShortFilm(!isShortFilm);

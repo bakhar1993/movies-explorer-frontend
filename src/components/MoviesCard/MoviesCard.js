@@ -11,7 +11,7 @@ function MoviesCard({mov,handleCardButtonClick,saveMovies,movieId}) {
     handleCardButtonClick(mov,movieId);
   }
   function checkSaveMovies(){
-    if (saveMovies.length){
+    if (saveMovies){
       const movIsSave = saveMovies.some((item)=> item.movieId === movieId);
       setIsSave(movIsSave);}
       else{
