@@ -1,6 +1,5 @@
 import Auth from "../Auth/Auth";
-import useInput from "../../utils/useFormValidation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { login } from "../../utils/MainApi";
 import { SIGNUP_PAGE } from "../../utils/constants";

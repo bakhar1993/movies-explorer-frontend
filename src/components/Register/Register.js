@@ -1,7 +1,6 @@
 import "./Register.css";
 import Auth from "../Auth/Auth";
-import useInput from "../../utils/useFormValidation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { register } from "../../utils/MainApi";
 import { useHistory } from "react-router-dom";
 import { login } from "../../utils/MainApi";

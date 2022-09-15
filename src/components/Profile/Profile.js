@@ -1,6 +1,5 @@
 import "./Profile.css";
-import useInput from "../../utils/useFormValidation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { updateProfile } from "../../utils/MainApi";
 import UserContext from "../../contexts/CurrentUserContext";
 import { useContext } from "react";

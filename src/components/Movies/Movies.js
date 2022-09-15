@@ -4,7 +4,6 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import { useEffect, useState } from "react";
 import getMovies from "../../utils/MoviesApi";
-import { getSavedMovies } from "../../utils/MainApi";
 
 function Movies({
   searchMov,
