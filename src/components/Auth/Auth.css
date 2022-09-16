@@ -1,0 +1,166 @@
+.auth {
+  padding: 70px 0;
+}
+
+.auth__container {
+  width: 396px;
+  margin: 0 auto;
+}
+
+/* .auth__form{
+margin-bottom: 59px;
+} */
+
+/* .auth__form_singin{
+  margin-bottom: 169px;
+} */
+
+.auth__title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  color: #ffffff;
+  padding: 0;
+  margin: 40px 0 40px;
+}
+
+.auth__button {
+  cursor: pointer;
+  width: 100%;
+  height: 45px;
+  margin-top: 10px;
+  background: #4285f4;
+  border-radius: 3px;
+  border: none;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #ffffff;
+  margin-top: 59px
+}
+
+.auth__button_singin{
+  margin-top: 169px;
+}
+
+.auth__button:hover{
+  opacity: 0.8;
+}
+.auth__button:disabled {
+  background-color: #F8F8F8;
+  color: #000000;
+}
+
+.auth__text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+
+  color: #8b8b8b;
+  margin: 16px 0 0;
+}
+
+.auth__link {
+  color: #4285f4;
+  text-decoration: none;
+}
+
+.auth__input-text {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8b8b8b;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.auth__input {
+  width: 100%;
+  /* height: 46px; */
+  box-sizing: border-box;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #2f2f2f;
+  border: 0;
+  border-radius: 8px;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+  outline: none;
+}
+
+.auth__input-error {
+  display: block;
+  visibility: hidden;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ee3465;
+  min-height: 10px;
+  margin-top: 0;
+  padding: 0;
+}
+
+.auth__input-error_active{
+
+  visibility: visible;
+
+}
+
+.link:hover {
+  transition: opacity 0.2s linear;
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 767px) {
+  .auth {
+    padding: 56px 0 40px;
+  }
+  .auth__container{
+    width: 260px;
+  }
+  .auth__title{
+    margin: 50px 0 80px;
+    text-align: center;
+  }
+
+  .auth__button{
+    margin-top: 157px;
+    }
+
+.auth__logo{
+  display: block;
+  /* width: 38px; */
+  margin: 0 auto;
+}
+
+.auth__button{
+  font-size: 12px;
+line-height: 15px;
+/* margin-top: 157px; */
+}
+.auth__text{
+  font-size: 12px;
+line-height: 15px;
+margin-top: 14px;
+}
+.auth__button_singin{
+  margin-top: 267px;
+}
+
+}
